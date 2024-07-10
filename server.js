@@ -8,7 +8,7 @@ const PORT = 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
-let allPosts = [];
+let allBooks = [];
 
 function generateRandomId() {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -19,52 +19,52 @@ function generateRandomId() {
     return result;
   }
   
-  app.post('/createpost', (req, res) => {
+  app.post('/createbook', (req, res) => {
     console.log(req.body);
-    const post = req.body;
-    post.id = generateRandomId();
-    allPosts.push(post);
-    res.status(201).send(post);
+    const book = req.body;
+    book.id = generateRandomId();
+    allBooks.push(book);
+    res.status(201).send(book);
   });
 
 // Get all posts
-app.get('/allposts', (req, res) => {
-    res.send(allPosts);
+app.get('/allbooks', (req, res) => {
+    res.send(allBooks);
 });
 
 // Get a post by id
-app.get('/posts/:id', (req, res) => {
+app.get('/book/:id', (req, res) => {
     const id = req.params.id;
-    const post = allPosts.find(p => p.id === id);
-    if (post) {
-        res.send(post);
+    const book = allBooks.find(p => p.id === id);
+    if (book) {
+        res.send(book);
     } else {
         res.status(404).send({ message: 'Post not found' });
     }
 });
 
 // Update a post by id
-app.put('/post/:id', (req, res) => {
+app.put('/updatebook/:id', (req, res) => {
     const id = req.params.id;
-    const index = allPosts.findIndex(p => p.id === id);
+    const index = allBooks.findIndex(p => p.id === id);
     if (index !== -1) {
-        allPosts[index] = { ...allPosts[index], ...req.body };
-        res.send(allPosts[index]);
+        allBooks[index] = { ...allBooks[index], ...req.body };
+        res.send(allBooks[index]);
     } else {
         res.status(404).send({ message: 'Post not found' });
     }
 });
 
 // Delete a post by id
-app.delete('/deletepost/:id', (req, res) => {
+app.delete('/deletebook/:id', (req, res) => {
     const id = req.params.id;
     console.log(id);
-    const index = allPosts.findIndex(p => p.id === id);
+    const index = allBooks.findIndex(p => p.id === id);
     if (index !== -1) {
-        const deletedPost = allPosts.splice(index, 1);
-        res.send(deletedPost[0]);
+        const deletedBook = allBooks.splice(index, 1);
+        res.send(deletedBook[0]);
     } else {
-        res.status(404).send({ message: 'Post not found' });
+        res.status(404).send({ message: 'BOOk not found' });
     }
 });
 
